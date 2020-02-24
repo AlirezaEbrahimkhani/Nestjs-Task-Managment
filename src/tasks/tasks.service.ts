@@ -33,12 +33,22 @@ export class TasksService {
     }
 
     async deleteTask(id : number) :Promise<void> {
-        
+
         const result = this.taskRepository.delete(id);
 
         if((await result).affected == 0){
             throw new NotFoundException(`Task with ID "${id}" not found`);
         }
+    }
+
+    async updateTaskSatus(id : number , status : TaskStatus) : Promise<Task>{
+
+        const task = this.getTaskById(id);
+        (await task).status = status;
+        (await task).save();
+
+        return task;
+
     }
  
 
