@@ -32,6 +32,15 @@ export class TasksService {
         return this.taskRepository.createTask(createTaskDto);
     }
 
+    async deleteTask(id : number) :Promise<void> {
+        
+        const result = this.taskRepository.delete(id);
+
+        if((await result).affected == 0){
+            throw new NotFoundException(`Task with ID "${id}" not found`);
+        }
+    }
+ 
 
     //--------------------------------------------------- Finish API with Database ---------------------------------------------------//
 
